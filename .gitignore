@@ -64,26 +64,14 @@ pip-delete-this-directory.txt
 
 
 
-
-
-
-
-
-
 # Flask stuff:
 # instance/
 .webassets-cache
-
-
-
-
 # pyenv
 .python-version
 
-
-
 # Environments
-.env
+.flaskenv
 .venv
 env/
 venv/
