@@ -71,7 +71,7 @@ pip-delete-this-directory.txt
 .python-version
 
 # Environments
-.flaskenv
+.env
 .venv
 env/
 venv/
