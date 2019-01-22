@@ -36,3 +36,7 @@ class Validators:
 	   
        if phone_regex.search(data.get("phonenumber"))== None:
             return False
+
+   def check_is_digit(self, data):
+       if type(data.get("phonenumber")) != int:
+           return False
