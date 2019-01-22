@@ -1,5 +1,5 @@
 import psycopg2
-from .queries import tables
+from .sql_queries import tables
 
 
 class DbModels:
