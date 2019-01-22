@@ -60,5 +60,53 @@ table5= """
         
         )
         """
+save_user =     """
+                INSERT INTO users (first_name, last_name, othername, email,
+                                                user_name, password, isadmin),
+                VALUES(%s,%s,%s,%s,%s,%s,%s)
+                """
+
+save_question = """
+                INSERT INTO questions (title, body, meetup),
+                VALUES(%s,%s,%s)
+                """
+save_comment = """
+                INSERT INTO comments (createdon,createdby,meetup,title,body,question),
+                VALUES(%s,%s,%s,%s,%s,%s)
+                """
+create_rsvp = """
+                INSERT INTO rsvp (meetup,user_,response),
+                VALUES(%s,%s,%s)
+              """
+get_a_user_email = """
+                        SELECT email from users WHERE email =%s;
+                   """
+get_user_by_id = """
+                    SELECT user_id FROM users WHERE user_id = %s;
+                 """
+
+get_question_by_id= """
+                        SELECT question_id FROM questions WHERE question_id = %s;
+                    """
+
+get_meetup_by_id = """
+                        SELECT meetup_id FROM meetups WHERE meetup_id = %s;
+                   """
+                
+delet_meetup_by_id = """
+                        DELETE meetup_id FROM meetups WHERE meetup_id = %s;
+                     """
+
+get_upcoming_meetups = """
+                        SELECT * FROM meetups WHERE happeningon > %s;
+                       """
+
+update_votes = """
+                UPDATE questions SET votes = %s WHERE votes = 0;
+               """
+
+
+
+
 
 tables = [table1,table2,table3,table4,table5]
