@@ -51,14 +51,9 @@ class UserModel(DbModels):
         conn.commit()
         cur.close()
         
-        user = {
-            "username" :username,
-            "firstname" : firstname,
-            "lastname": lastname,
-            "email":email,
-            "user_id" : results[0]
-        }
-
+        keys = ["user_id", "username" ,"email", "firstname" ]
+        results
+        user = dict(zip(keys, results))
 
 
         return {"status":201, "data": [
