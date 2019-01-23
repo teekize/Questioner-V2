@@ -40,3 +40,8 @@ class Validators:
    def check_is_digit(self, data):
        if type(data.get("phonenumber")) != int:
            return False
+
+   def check_password_strength(self,data):
+       if len(data.get("password"))<6:
+           return False
+
