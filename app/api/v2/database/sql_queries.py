@@ -7,7 +7,7 @@ table1 = """
         othername varchar (40),
         email varchar(40) UNIQUE NOT NULL,
         user_name varchar  (40) UNIQUE NOT NULL,
-        password varchar(60) NOT NULL,
+        password varchar(220) NOT NULL,
         isAdmin bool DEFAULT False,
         registered timestamp
         )
@@ -62,25 +62,29 @@ table5= """
         """
 save_user =     """
                 INSERT INTO users (first_name, last_name, othername, email,
-                                                user_name, password, isadmin),
-                VALUES(%s,%s,%s,%s,%s,%s,%s)
+                                                user_name, password, isadmin, registered)
+                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *
                 """
 
 save_question = """
-                INSERT INTO questions (title, body, meetup),
-                VALUES(%s,%s,%s)
+                INSERT INTO questions (title, body, meetup)
+                VALUES(%s,%s,%s) RETURNING question_id, title, body
                 """
 save_comment = """
                 INSERT INTO comments (createdon,createdby,meetup,title,body,question),
-                VALUES(%s,%s,%s,%s,%s,%s)
+                VALUES(%s,%s,%s,%s,%s,%s) RETURNING comment_id, meetup, title, body, question
                 """
 create_rsvp = """
                 INSERT INTO rsvp (meetup,user_,response),
-                VALUES(%s,%s,%s)
+                VALUES(%s,%s,%s) RETURNING meetup_id, response
               """
 get_a_user_email = """
-                        SELECT email from users WHERE email =%s;
+                        SELECT email from users WHERE email =%s
+                        
                    """
+get_a_user_by_username= """
+                            SELECT user_name from users WHERE user_name =%s
+                        """
 get_user_by_id = """
                     SELECT user_id FROM users WHERE user_id = %s;
                  """

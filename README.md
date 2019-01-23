@@ -1,3 +1,8 @@
+[![Maintainability](https://api.codeclimate.com/v1/badges/a882fd1c5c0afc243da7/maintainability)](https://codeclimate.com/github/teekize/Questioner-V2/maintainability)
+
+
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5ecdc75d858e2c260a23)
+
 ## Questionner
 
 Crowd-source questions for a meetup. Questioner helps the meetup organizer prioritize questions to be answered. Other users can vote on asked questions and they bubble to the top or bottom of the log

@@ -1,5 +1,6 @@
 import psycopg2
-from .queries import tables
+from .sql_queries import tables
+
 
 
 class DbModels:
@@ -13,33 +14,20 @@ class DbModels:
 
     def create_table(self, tables):
         """this creates all tables"""
-        
-        conn = self.db_connection()
-        cur = conn.cursor()
-        for table in tables:
-            cur.execute(table)
+        try:
+            conn = self.db_connection()
+            cur = conn.cursor()
+            for table in tables:
+                cur.execute(table)
 
-        print ("created successfully")
-        conn.commit()
-        conn.close()
-        
-    def run(self,sql,data):
-        conn = self.db_connection()
-        cur = conn.cursor()
-        con = cur.execute(sql, data)
-        conn.commit()
-        conn.close()
-        return con
+            print ("created successfully")
+            conn.commit()
+            conn.close()    
+        except(Exception, psycopg2.DatabaseError) as error:
+            raise error
+    
 
-    def getting_one_user(self,sql,data):
-        conn = self.db_connection()
-        cur = conn.cursor()
-        cur.execute(sql, data)
-        results = cur.fetchone()
-        conn.commit()
-        conn.close()
-        return results
-
+    
 def initialize():
     db = DbModels()
     db.db_connection()
