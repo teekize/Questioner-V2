@@ -63,7 +63,7 @@ table5= """
 save_user =     """
                 INSERT INTO users (first_name, last_name, othername, email,
                                                 user_name, password, isadmin, registered)
-                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING *
+                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, first_name
                 """
 
 save_question = """
