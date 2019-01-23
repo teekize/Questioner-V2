@@ -1,4 +1,5 @@
 from app import create_app
+from flask import jsonify, json
 from instance.config import config
 import unittest
 
@@ -21,7 +22,7 @@ class UserTests(unittest.TestCase):
 
     def test_user_signup(self):
         """tests the user signup"""
-        response = self.client.post("/api/v2/signup", data = self.user, content_type = "application/json")
+        response = self.client.post("/api/v2/signup", data =json.dumps(self.user), content_type = "application/json")
         self.assertEqual(response.status_code, 201)
 
     def tearDown(self):
