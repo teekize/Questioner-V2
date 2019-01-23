@@ -72,6 +72,12 @@ def create_user():
                          "error" : "invalid email address"
                         }
                       ), 400
+
+    if validators.check_password_strength(user_data) == False:
+        return jsonify({
+                        "status":400, 
+                        "error": "password length should atleast 6 characters long"
+                        }),400
                     
     if validators.check_if_valid_phone_number(user_data) ==  False:
         return jsonify({
