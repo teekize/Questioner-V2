@@ -114,7 +114,7 @@ delet_meetup_by_id = """
                      """
 
 get_upcoming_meetups = """
-                        SELECT * FROM meetups WHERE happeningon > %s;
+                        SELECT * FROM meetups WHERE happeningon > %s
                        """
 
 update_votes = """
