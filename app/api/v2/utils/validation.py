@@ -27,10 +27,10 @@ class Validators:
             if len(value) == 0:
                 return False
     
-   def check_if_data_is_whitespace(self, data):
+   def check_if_data_is_whitespace(self, data): ### check on thiss
         for input_ in data.values():
             string_to_strip = input_.strip()
-            if len(string_to_strip) <= 3:
+            if len(string_to_strip)==0:
                 return False
     
    def check_if_valid_email(self, email):
@@ -80,7 +80,7 @@ def token_required(f):
             print(request.headers["x-access-token"])
 
         if not token:
-            return jsonify({"message":"token is missing"})
+            return jsonify({"message":"token is missing", "status":403}),403
 
         else:
             data=jwt.decode(token,Config.secret_key)
