@@ -18,10 +18,10 @@ table2="""
         createdon timestamp  NOT NULL,
         location varchar(40) NOT NULL,
         images varchar(40) ARRAY ,
-        topic varchar(40) UNIQUE NOT NULL,
+        topic varchar(40) UNIQUE  NOT NULL,
         happeningon timestamp  NOT NULL,
         tags VARCHAR(20) ARRAY,
-        name varchar(20) NOT NULL,
+        name varchar(20)  NOT NULL,
         createdby INT NOT NULL
         )
         """
@@ -74,16 +74,24 @@ save_comment = """
                 INSERT INTO comments (createdon,createdby,meetup,title,body,question),
                 VALUES(%s,%s,%s,%s,%s,%s) RETURNING comment_id, meetup, title, body, question
                 """
+create_meetup = """
+                INSERT INTO meetups (createdon, location,images,topic,
+                happeningon,tags,name,createdby)
+                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING meetup_id, name, happeningon
+                """
 create_rsvp = """
                 INSERT INTO rsvp (meetup,user_,response),
                 VALUES(%s,%s,%s) RETURNING meetup_id, response
               """
+check_same_meetup_name = """
+                          SELECT name FROM meetups WHERE topic = %s
+                          """
 get_a_user_email = """
                         SELECT email from users WHERE email =%s
                         
                    """
 get_a_user_by_username= """
-                            SELECT user_name from users WHERE user_name =%s
+                            SELECT user_name,user_id from users WHERE user_name = %s
                         """
 get_user_by_id = """
                     SELECT * FROM users WHERE user_name = %s;
