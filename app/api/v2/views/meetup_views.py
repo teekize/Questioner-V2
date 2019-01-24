@@ -61,5 +61,11 @@ def get_one_meetup(meetup_id):
     elif response["status"]==200:
         return jsonify(response),200
     
+
+@meetup_blueprint.route("/meetups/upcoming/", methods=["GET"])
+def get_all_upcoming():
+    """meetup endpoint for getting all upcoming meetups"""
+    response  = meetup.get_upcoming_meetups()
+    return jsonify(response),200
     
     
