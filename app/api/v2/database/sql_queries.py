@@ -7,7 +7,7 @@ table1 = """
         othername varchar (40),
         email varchar(40) UNIQUE NOT NULL,
         user_name varchar  (40) UNIQUE NOT NULL,
-        password varchar(220) NOT NULL,
+        password varchar(200) NOT NULL,
         isAdmin bool DEFAULT False,
         registered timestamp
         )
@@ -63,7 +63,7 @@ table5= """
 save_user =     """
                 INSERT INTO users (first_name, last_name, othername, email,
                                                 user_name, password, isadmin, registered)
-                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, first_name
+                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, password
                 """
 
 save_question = """
@@ -86,7 +86,7 @@ get_a_user_by_username= """
                             SELECT user_name from users WHERE user_name =%s
                         """
 get_user_by_id = """
-                    SELECT user_id FROM users WHERE user_id = %s;
+                    SELECT * FROM users WHERE user_name = %s;
                  """
 
 get_question_by_id= """
@@ -108,7 +108,7 @@ get_upcoming_meetups = """
 update_votes = """
                 UPDATE questions SET votes = %s WHERE votes = 0;
                """
-
+drop_table = """DROP TABLE users IF exist"""
 
 
 
