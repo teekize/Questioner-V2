@@ -9,7 +9,7 @@ class UserModel(DbModels):
     def __init__(self):
         self.createdon = datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M')
 
-    def check_for_same_email_username(self,email=None, username=None):
+    def check_for_same_email_username(self,email, username):
         """could check for same email or password"""
         results= None
         if email:
@@ -43,29 +43,30 @@ class UserModel(DbModels):
 
         new_user = ( firstname, lastname, othername, email, username, password, isadmin, registered
                    )
-        
-        conn = self.db_connection()
-        cur = conn.cursor()
-        cur.execute(save_user, new_user)
-        results = cur.fetchone()
-        conn.commit()
-        cur.close()
-        
-        keys = ["user_id","username","email","password"]
-        user = dict(zip(keys, results))
-        print(results)
+        try:
+            conn = self.db_connection()
+            cur = conn.cursor()
+            cur.execute(save_user, new_user)
+            results = cur.fetchone()
+            conn.commit()
+            cur.close()
+            
+            keys = ["user_id","username","email","password"]
+            user = dict(zip(keys, results))
+            print(results)
 
 
-        return {"status":201, "data": [
-                                        {"user": user,
-                                        "message": "user sucessfully created"
-                                        },
-                                      ]}
-
+            return {"status":201, "data": [
+                                            {"user": user,
+                                            "message": "user sucessfully created"
+                                            },
+                                        ]}
+        except IntegrityError:
+            return ({"error":"user with same username and email exists", "status":409})
     def getting_one_user(self, data):
         conn = self.db_connection()
         cur = conn.cursor()
-        cur.execute((get_user_by_id), (data,))
+        cur.execute((get_a_user_by_username), (data,))
         results = cur.fetchone()
         conn.commit()
         conn.close()
