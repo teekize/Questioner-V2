@@ -62,11 +62,7 @@ def create_user():
                         "status" : 400,
                         "error" : "phone number should be in the format 020 254 2542"
         }),400
-    if user_model.check_for_same_email_username(email, username) == False:
-        return jsonify({"error": "the email already exists",
-                         "status":409}),409
-
-    # hashed_pass = genpassword)
+   
     user_data = {
                     "username" : username,
                     "password" : password,
@@ -77,7 +73,10 @@ def create_user():
                     "isdamin": isadmin
                 }
     user_model_response = user_model.save(user_data)
-    return jsonify(user_model_response),201
+    if user_model_response["status"]==409:
+        return jsonify(user_model_response),409
+    elif user_model_response["status"]==201:
+        return jsonify(user_model_response),201
 
 
 @app_blueprint.route("/auth/login", methods= ["POST"])
@@ -87,9 +86,6 @@ def login_user():
 
     username = request.json["username"]
     password = request.json["password"]
-
-    # if user_model.check_for_same_email_username(username) ==  False:
-    #     return jsonify({"error":"user with the username is not found", "status":404}),404
     
     user = user_model.getting_one_user (username)
     if not user:

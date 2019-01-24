@@ -3,6 +3,14 @@ this module contains the validators to be used in the application
 
 """
 import re
+from flask import request, jsonify
+import  jwt
+from instance.config import Config
+from functools import wraps
+from app.api.v2.models.user_models import UserModel
+import datetime
+
+user_model = UserModel()
 
 class Validators:
    """contails the methods for the validators class"""
@@ -45,3 +53,41 @@ class Validators:
        if len(password)<6:
            return False
 
+
+   def check_required_fields(self, data, required_field):
+        for field in required_field:
+            if field not in data:
+                return False, {"message": "{}, {}, {}, {} are"
+                        "required".format(required_field[0],required_field[1],
+                        required_field[2],required_field[3])}
+            
+
+   def check_date_if_matches(self, data):
+        date = data["happeningon"]
+        
+        try:
+            datetime.datetime.strptime(date, '%Y-%m-%d %H:%M')
+        except ValueError:
+            return False
+
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token=None
+	
+        if 'x-access-token' in request.headers:
+            token=request.headers["x-access-token"]
+            print(request.headers["x-access-token"])
+
+        if not token:
+            return jsonify({"message":"token is missing"})
+
+        else:
+            data=jwt.decode(token,Config.secret_key)
+            current_user= user_model.getting_one_user(data["username"])#[user for user in users if user["name"]==data["username"]]
+            username= current_user
+            
+		
+            # return jsonify({"message":"token is invalid"})
+        return f(username, *args, **kwargs)
+    return decorated
