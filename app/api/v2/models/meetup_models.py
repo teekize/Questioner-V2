@@ -1,5 +1,5 @@
 from app.api.v2.database.database import DbModels
-from app.api.v2.database.sql_queries import create_meetup,check_same_meetup_name
+from app.api.v2.database.sql_queries import create_meetup,check_same_meetup_name,get_meetup_by_id
 import datetime
 from psycopg2 import IntegrityError
 
@@ -48,4 +48,26 @@ class MeetUpModel(DbModels):
 
         if not result :
             return False
+
+    def check_for_meetup_by_id(self, data):
+        try:
+            conn = self.db_connection()
+            cur = conn.cursor()
+            cur.execute(get_meetup_by_id, (data,))
+            results = cur.fetchone()
+            conn.commit()
+            conn.close()
+
+            """meetup_id createdon| location images topic happeningon tags name createdby"""
+            values= (results[0], results[2], results[4], results[5], results[6])
+            keys=["meetup_id", "location", "topic", "happeningon", "tags"]
+            return {
+                    "status": 200,
+                    "data": [ dict(zip(keys, values))]
+                    }
+        except TypeError:
+            return {
+                    "error":"could not find meetup with that id",
+                     "status":404
+                     }
 

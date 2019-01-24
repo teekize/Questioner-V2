@@ -1,5 +1,6 @@
 """ this module contains all the user functions to interact with the database"""
-from ..database.sql_queries import save_user, get_a_user_email,get_a_user_by_username, get_user_by_id
+from ..database.sql_queries import (save_user, get_a_user_email,get_a_user_by_username,
+                                     get_user_by_id,geta_user_by_username)
 from ..database.database import DbModels
 import datetime
 from psycopg2 import IntegrityError,sql
@@ -66,11 +67,19 @@ class UserModel(DbModels):
     def getting_one_user(self, data):
         conn = self.db_connection()
         cur = conn.cursor()
-        cur.execute((get_a_user_by_username), (data,))
+        cur.execute(get_a_user_by_username, (data,))
         results = cur.fetchone()
         conn.commit()
         conn.close()
         print(results)
         return results
 
+    def get_one_user_with_username(self, data):
+        conn =self.db_connection()
+        cur = conn.cursor()
+        cur.execute(geta_user_by_username, (data,))
+        results =cur.fetchone()
+        conn.commit()
+        conn.close()
+        return results
                     

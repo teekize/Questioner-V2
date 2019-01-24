@@ -51,5 +51,15 @@ def create_meetup(username):
         return jsonify(response),409
     elif response["status"]==201:
         return jsonify(response),201
+
+@meetup_blueprint.route("/meetups/<int:meetup_id>", methods=["GET"])
+def get_one_meetup(meetup_id):
+    "check if the id exists"
+    response = meetup.check_for_meetup_by_id(meetup_id)
+    if response["status"]== 404:
+        return jsonify(response),404
+    elif response["status"]==200:
+        return jsonify(response),200
+    
     
     
