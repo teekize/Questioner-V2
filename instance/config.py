@@ -4,6 +4,7 @@ import os
 class Config(object):
     DEBUG = True
     Database = os.getenv('DATABASE_URL')
+    secret_key = "hhjkshufierfrioenfreh"
 
 class Development(Config):
     DEBUG = True
