@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/teekize/Questioner-V2.svg?branch=develop)](https://travis-ci.com/teekize/Questioner-V2)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/a882fd1c5c0afc243da7/maintainability)](https://codeclimate.com/github/teekize/Questioner-V2/maintainability)
 
 
