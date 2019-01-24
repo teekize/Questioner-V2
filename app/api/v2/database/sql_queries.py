@@ -93,6 +93,10 @@ get_a_user_email = """
 get_a_user_by_username= """
                             SELECT user_name,user_id from users WHERE user_name = %s
                         """
+geta_user_by_username= """
+                            SELECT * from users WHERE user_name = %s
+                        """
+                        
 get_user_by_id = """
                     SELECT * FROM users WHERE user_name = %s;
                  """
@@ -102,7 +106,7 @@ get_question_by_id= """
                     """
 
 get_meetup_by_id = """
-                        SELECT meetup_id FROM meetups WHERE meetup_id = %s;
+                        SELECT * FROM meetups WHERE meetup_id = %s
                    """
                 
 delet_meetup_by_id = """
