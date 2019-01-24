@@ -62,9 +62,7 @@ def create_user():
                         "status" : 400,
                         "error" : "phone number should be in the format 020 254 2542"
         }),400
-    if user_model.check_for_same_email_username(email, username) == False:
-        return jsonify({"error": "the email already exists",
-                         "status":409}),409
+   
     user_data = {
                     "username" : username,
                     "password" : password,
