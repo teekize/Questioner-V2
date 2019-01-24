@@ -25,23 +25,23 @@ class Validators:
             if len(string_to_strip) <= 3:
                 return False
     
-   def check_if_valid_email(self, data):
+   def check_if_valid_email(self, email):
         pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
-        if pattern.search(data.get("email")) == None:
+        if pattern.search(email) == None:
             return False
 
-   def check_if_valid_phone_number(self, data):
+   def check_if_valid_phone_number(self, number):
        """checks if the given data is a valid mobile phone"""
        phone_regex = re.compile(r'\b\d{3} \d{3} \d{4}\b')
 	   
-       if phone_regex.search(data.get("phonenumber"))== None:
+       if phone_regex.search(number) == None:
             return False
 
    def check_is_digit(self, data):
        if type(data.get("phonenumber")) != int:
            return False
 
-   def check_password_strength(self,data):
-       if len(data.get("password"))<6:
+   def check_password_strength(self, password):
+       if len(password)<6:
            return False
 
