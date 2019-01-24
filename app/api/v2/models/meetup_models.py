@@ -1,7 +1,9 @@
 from app.api.v2.database.database import DbModels
-from app.api.v2.database.sql_queries import create_meetup,check_same_meetup_name,get_meetup_by_id
+from app.api.v2.database.sql_queries import (create_meetup,check_same_meetup_name,
+                                                get_meetup_by_id,get_upcoming_meetups)
 import datetime
 from psycopg2 import IntegrityError
+from psycopg2.extras import RealDictCursor
 
 
 class MeetUpModel(DbModels):
@@ -31,7 +33,7 @@ class MeetUpModel(DbModels):
             keys =["meetup_id", "name", "happeningon"]
             return {
                     "message": "successfully created",
-                    "user": dict(zip(keys,response_from_db)),
+                    "data": dict(zip(keys,response_from_db)),
                     "status":201
                     }
         except IntegrityError:
@@ -71,3 +73,15 @@ class MeetUpModel(DbModels):
                      "status":404
                      }
 
+    def get_upcoming_meetups(self):
+        data= datetime.datetime.utcnow().strftime('%Y-%m-%d %H:%M')
+        conn = self.db_connection()
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur.execute(get_upcoming_meetups,(data,))
+
+        results = cur.fetchall()
+    
+        return {
+                "status":200,
+                 "data" : results
+                }
