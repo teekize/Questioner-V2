@@ -27,11 +27,18 @@ class Validators:
             if len(value) == 0:
                 return False
     
-   def check_if_data_is_whitespace(self, data): ### check on thiss
-        for input_ in data.values():
-            string_to_strip = input_.strip()
-            if len(string_to_strip)==0:
-                return False
+   def check_if_data_is_whitespace(self, data=None, itereable=None):
+       if data: ### check on thiss
+            for input_ in data.values():
+                string_to_strip = input_.strip()
+                if len(string_to_strip)==0:
+                    return False
+
+       if itereable:
+            for data in itereable:
+                string_to_strip = data.strip()
+                if len(string_to_strip)==0:
+                    return False
     
    def check_if_valid_email(self, email):
         pattern = re.compile(r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)")
