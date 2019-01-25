@@ -31,7 +31,7 @@ table3= """
         question_id serial PRIMARY KEY,
         createdon timestamp  NOT NULL,
         createdby INT NOT NULL,
-        meetup INT NOT NULL,
+        meetup INT UNIQUE NOT NULL,
         title varchar(40) UNIQUE NOT NULL,
         body VARCHAR(40) NOT NULL,
         votes INT DEFAULT 0
@@ -67,8 +67,8 @@ save_user =     """
                 """
 
 save_question = """
-                INSERT INTO questions (title, body, meetup)
-                VALUES(%s,%s,%s) RETURNING question_id, title, body
+                INSERT INTO questions (title, body, meetup, createdon, createdby)
+                VALUES(%s,%s,%s,%s,%s) RETURNING question_id, title, body
                 """
 save_comment = """
                 INSERT INTO comments (createdon,createdby,meetup,title,body,question),
