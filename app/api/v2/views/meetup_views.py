@@ -19,7 +19,7 @@ def create_meetup(username):
     response = validators.check_required_fields(data, required_fields)
     if response == False:
         return jsonify(response),400
-
+    
     data = {
         "name": request.json["name"],
         "topic" : request.json["topic"],
