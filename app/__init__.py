@@ -6,9 +6,9 @@ from app.api.v2.views.question_views import question_blueprint
 from app.api.v2.utils.hanlders import method_not_allowed, not_found, bad_request, access_forbiden, server_error
 from instance.config import config
 
-def create_app(config_name='development'):
+def create_app():
     app = Flask(__name__)
-    app.config.from_object(config[config_name])
+    # app.config.from_object(config[config_name])
     app.register_blueprint(app_blueprint)
     app.register_blueprint(meetup_blueprint)
     app.register_blueprint(question_blueprint)
