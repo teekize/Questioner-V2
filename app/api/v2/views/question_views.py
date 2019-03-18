@@ -56,3 +56,33 @@ def create_question(username):
         return jsonify(response),409
     elif response["status"]==201:
         return jsonify(response),201
+
+@question_blueprint.route("/questions", methods=["GET"])
+def get_all_questions():
+    response = question.get_all_questions()
+    return jsonify(response),200
+
+@question_blueprint.route("/questions/<int:question_id>/upvote", methods=["PATCH"])
+@token_required
+def upvote_question(username, question_id):
+    """check if that question exists exists"""
+    results = question.check_if_question_exixts(question_id, username)
+    if results == False:
+        return jsonify({"error": "question with that id not found"}), 404
+
+
+    """check if a question with that id exists in a given question"""
+    """we then get the votes of the question , and upvote the votes by one"""
+    response = question.upvote_question(question_id, username)
+
+
+    """after the question is upvoted by a user we are going to insert the question_id and userid in the 
+    a blacklisted votes table"""
+    if response["status"] !=403:
+        
+        return jsonify(response), 200
+    return jsonify(response), 403
+    
+
+
+    # return jsonify(reslut),200
