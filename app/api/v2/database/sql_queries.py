@@ -31,7 +31,7 @@ table3= """
         question_id serial PRIMARY KEY,
         createdon timestamp  NOT NULL,
         createdby INT NOT NULL,
-        meetup INT UNIQUE NOT NULL,
+        meetup INT UNIQUE NOT NULL REFERENCES meetups(meetup_id),
         title varchar(40) UNIQUE NOT NULL,
         body VARCHAR(40) NOT NULL,
         votes INT DEFAULT 0
@@ -60,11 +60,18 @@ table5= """
         
         )
         """
-save_user =     """
-                INSERT INTO users (first_name, last_name, othername, email,
-                                                user_name, password, isadmin, registered)
-                VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, password
-                """
+
+table6 = """
+         CREATE TABLE IF NOT EXISTS blacklisted_users(
+         user_id INT,
+         question_id INT
+         )
+         """
+save_user = """
+        INSERT INTO users (first_name, last_name, othername, email,
+                                        user_name, password, isadmin, registered)
+        VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, password
+        """
 
 save_question = """
                 INSERT INTO questions (title, body, meetup, createdon, createdby)
@@ -87,8 +94,7 @@ check_same_meetup_name = """
                           SELECT name FROM meetups WHERE topic = %s
                           """
 get_a_user_email = """
-                        SELECT email from users WHERE email =%s
-                        
+                    SELECT email from users WHERE email = %s
                    """
 get_a_user_by_username= """
                             SELECT user_name,user_id from users WHERE user_name = %s
@@ -102,7 +108,7 @@ get_user_by_id = """
                  """
 
 get_question_by_id= """
-                        SELECT question_id FROM questions WHERE question_id = %s;
+                        SELECT * FROM questions WHERE question_id = %s
                     """
 
 get_meetup_by_id = """
@@ -117,12 +123,24 @@ get_upcoming_meetups = """
                         SELECT * FROM meetups WHERE happeningon > %s
                        """
 
+get_all_questions = """
+                        SELECT * FROM questions
+                """
+
 update_votes = """
-                UPDATE questions SET votes = %s WHERE votes = 0;
+                UPDATE questions SET votes = %s WHERE question_id = %s RETURNING question_id, votes
                """
+
+insert_blacklisted = """
+                    INSERT into blacklisted_users(user_id, question_id) VALUES(%s,%s) RETURNING user_id, question_id
+                    """
 drop_table = """DROP TABLE users IF exist"""
 
+check_if_blacklisted = """
+                        SELECT * FROM blacklisted_users WHERE user_id = %s AND question_id = %s
+                        """
 
 
 
-tables = [table1,table2,table3,table4,table5]
+
+tables = [table1,table2,table3,table4,table5,table6]
