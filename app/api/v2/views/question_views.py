@@ -73,16 +73,32 @@ def upvote_question(username, question_id):
 
     """check if a question with that id exists in a given question"""
     """we then get the votes of the question , and upvote the votes by one"""
-    response = question.upvote_question(question_id, username)
+    response = question.update_question_votes(question_id, username, "u")
 
 
     """after the question is upvoted by a user we are going to insert the question_id and userid in the 
+    a blacklisted votes table"""
+    if response["status"] !=200:
+        
+        return jsonify(response), 403
+    return jsonify(response), 200
+    
+
+
+@question_blueprint.route("/questions/<int:question_id>/downvote", methods=["PATCH"])
+@token_required
+def downvote_question(username, question_id):
+    """check if a question with that id exists"""
+    results = question.check_if_question_exixts(question_id, username)
+    if results == False:
+        return jsonify({"error": "question with that id not found"}), 404
+
+    response = question.update_question_votes(question_id, username, "d")
+
+
+    """after the question is downvoted by a user we are going to insert the question_id and userid in the 
     a blacklisted votes table"""
     if response["status"] !=403:
         
         return jsonify(response), 200
     return jsonify(response), 403
-    
-
-
-    # return jsonify(reslut),200
