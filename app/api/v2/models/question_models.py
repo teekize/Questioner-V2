@@ -86,7 +86,7 @@ class QuestionModel(DbModels):
         else :
             return results
 
-    def upvote_question(self, question_id, username):
+    def update_question_votes(self, question_id, username, identifier):
         user_id = username[1]
         print (user_id)
 
@@ -95,17 +95,28 @@ class QuestionModel(DbModels):
 
 
         if blacklisted:
-            return {"message": "you cannot upvote twice", "status":403}
+            return {"message": "you cannot vote twice", "status":403}
 
-        new_vote = question["votes"]+1
-        conn = self.db_connection()
-        cur = conn.cursor(cursor_factory=RealDictCursor)
-        cur.execute(update_votes, (new_vote, question_id))
-        results = cur.fetchone()
-        conn.commit()
-        conn.close()
+        if identifier=="u":
+            new_vote = question["votes"]+1
+            conn = self.db_connection()
+            cur = conn.cursor(cursor_factory=RealDictCursor)
+            cur.execute(update_votes, (new_vote, question_id))
+            results = cur.fetchone()
+            conn.commit()
+            conn.close()
 
-        results["message"]="you have upvoted the question"
+            results["message"]="you have upvoted the question"
+        elif identifier == "d":
+            new_vote = question["votes"]-1
+            conn = self.db_connection()
+            cur = conn.cursor(cursor_factory=RealDictCursor)
+            cur.execute(update_votes, (new_vote, question_id))
+            results = cur.fetchone()
+            conn.commit()
+            conn.close()
+
+            results["message"]="you have downvoted the question"
         
 
         """after the upvote we then added the user_id and question_id into the blacklisted_users and questions"""
