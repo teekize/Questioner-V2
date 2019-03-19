@@ -18,7 +18,7 @@ class QuestionModel(DbModels):
         conn = self.db_connection()
         cur =conn.cursor(cursor_factory=RealDictCursor)
         cur.execute(get_all_questions,)
-        results = cur.fetchmany()
+        results = cur.fetchall()
         conn.commit()
         conn.close()
 
@@ -47,25 +47,24 @@ class QuestionModel(DbModels):
         except IntegrityError:
             return {
                 "status":409,
-                "error":"a simillar question has been asked with same title"
+                "error":"a simillar question has been asked with same "
             }
 
     def check_meetup_exist(self, meetup_id):
-        try:
-            conn = self.db_connection()
-            cur = conn.cursor()
-            cur.execute(get_meetup_by_id, (meetup_id,))
-            # results = cur.fetchone()
-            conn.commit()
-            conn.close()
-
+        conn = self.db_connection()
+        cur = conn.cursor()
+        cur.execute(get_meetup_by_id, (meetup_id,))
+        results = cur.fetchone()
+        conn.commit()
+        conn.close()
+        if results:
             return{"status":200}
-        except TypeError:
-            return {
-                    "error":"could not find meetup with that id",
-                     "status":404
-                     }
-
+        else:
+            return{
+                    "status":404,
+                    "error":"could not find meetup with that id"
+                    }
+       
     def check_if_question_exixts(self, data, username):
         """this function checks if the question exists in the database
         takes in the parameter data which is the qustion id 
@@ -87,6 +86,13 @@ class QuestionModel(DbModels):
             return results
 
     def update_question_votes(self, question_id, username, identifier):
+        """
+        its the function that update the questions votes
+        takes three parameeters question_id, username and the and identifier"
+        the identifier can be ethier (d, u) symbolising d- downvote and u- for upvote
+
+        """
+
         user_id = username[1]
         print (user_id)
 
@@ -95,7 +101,10 @@ class QuestionModel(DbModels):
 
 
         if blacklisted:
-            return {"message": "you cannot vote twice", "status":403}
+            return {
+                     "message": "you cannot vote twice",
+                     "status": 403
+                    }
 
         if identifier=="u":
             new_vote = question["votes"]+1
@@ -107,6 +116,7 @@ class QuestionModel(DbModels):
             conn.close()
 
             results["message"]="you have upvoted the question"
+            results["status"] = 200
         elif identifier == "d":
             new_vote = question["votes"]-1
             conn = self.db_connection()
@@ -117,6 +127,7 @@ class QuestionModel(DbModels):
             conn.close()
 
             results["message"]="you have downvoted the question"
+            results["status"] = 200
         
 
         """after the upvote we then added the user_id and question_id into the blacklisted_users and questions"""
