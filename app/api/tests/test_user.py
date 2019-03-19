@@ -6,7 +6,7 @@ import unittest
 class UserTests(unittest.TestCase):
     """ adds the tests for the user class"""
     def setUp(self):
-        self.app = create_app(config_name='testing')
+        self.app = create_app().testing = True
         self.client= self.app.test_client()
 
         self.user= {
@@ -22,8 +22,12 @@ class UserTests(unittest.TestCase):
 
     def test_user_signup(self):
         """tests the user signup"""
-        response = self.client.post("/api/v2/signup", data =json.dumps(self.user), content_type = "application/json")
+        response = self.client.post("/api/v2/auth/signup", data =json.dumps(self.user), content_type = "application/json")
         self.assertEqual(response.status_code, 201)
+    
+    def test_user_login(self):
+        """tests the user login"""
+        response = self.client
 
     def tearDown(self):
         self.app = None

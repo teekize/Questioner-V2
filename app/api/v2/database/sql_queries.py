@@ -31,8 +31,8 @@ table3= """
         question_id serial PRIMARY KEY,
         createdon timestamp  NOT NULL,
         createdby INT NOT NULL,
-        meetup INT UNIQUE NOT NULL REFERENCES meetups(meetup_id),
-        title varchar(40) UNIQUE NOT NULL,
+        meetup INT NOT NULL REFERENCES meetups(meetup_id),
+        title varchar(40) NOT NULL,
         body VARCHAR(40) NOT NULL,
         votes INT DEFAULT 0
         )
