@@ -33,7 +33,7 @@ table3= """
         createdby INT NOT NULL,
         meetup INT NOT NULL REFERENCES meetups(meetup_id),
         title varchar(40) NOT NULL,
-        body VARCHAR(40) NOT NULL,
+        body VARCHAR(120) NOT NULL,
         votes INT DEFAULT 0
         )
         """
@@ -78,7 +78,7 @@ save_question = """
                 VALUES(%s,%s,%s,%s,%s) RETURNING question_id, title, body
                 """
 save_comment = """
-                INSERT INTO comments (createdon,createdby,meetup,title,body,question),
+                INSERT INTO comments (createdon,createdby,meetup,title,body,question)
                 VALUES(%s,%s,%s,%s,%s,%s) RETURNING comment_id, meetup, title, body, question
                 """
 create_meetup = """
