@@ -34,7 +34,7 @@ def create_user():
     firstname = data.get("email")
     lastname = data.get("lastname")
     phonenumber = data.get("phonenumber")
-    isadmin = data.get("isadmin")
+    
 
     to_be_string = (username, password, email, firstname, lastname)
     to_not_be_empty =(username, password, email, firstname, lastname, phonenumber)
@@ -99,14 +99,14 @@ def login_user():
         
     print (user)
     
-    stored_password = user[6]
+    stored_password = user["password"]
 
     if stored_password != password:
         return jsonify({"error": "invalid password", "status":401}),401
 
     fields =["user_id", "lastname", "email"]
-    keys =[user[0], user[2], user[4]]
-    token=jwt.encode({"user_id":user[0], "username":user[5], "email":user[4]}, Config.secret_key)
+    keys =[user["user_id"], user["last_name"], user["email"]]
+    token=jwt.encode({"user_id":user["user_id"], "username":user["user_name"], "email":user["email"]}, Config.secret_key)
     return jsonify({"status": 200,
                     "data" :[{"token":token.decode("UTF-8"),
                                "user": dict(zip(fields,keys))

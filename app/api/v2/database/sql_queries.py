@@ -8,7 +8,7 @@ table1 = """
         email varchar(40) UNIQUE NOT NULL,
         user_name varchar  (40) UNIQUE NOT NULL,
         password varchar(200) NOT NULL,
-        isAdmin bool DEFAULT False,
+        isadmin BOOLEAN  DEFAULT FALSE,
         registered timestamp
         )
         """
@@ -69,8 +69,8 @@ table6 = """
          """
 save_user = """
         INSERT INTO users (first_name, last_name, othername, email,
-                                        user_name, password, isadmin, registered)
-        VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, password
+                                        user_name, password, registered)
+        VALUES(%s,%s,%s,%s,%s,%s,%s) RETURNING user_id, user_name, email, password
         """
 
 save_question = """
@@ -115,8 +115,8 @@ get_meetup_by_id = """
                         SELECT * FROM meetups WHERE meetup_id = %s
                    """
                 
-delet_meetup_by_id = """
-                        DELETE meetup_id FROM meetups WHERE meetup_id = %s;
+delete_meetup_by_id = """
+                        DELETE FROM meetups WHERE meetup_id = %s
                      """
 
 get_upcoming_meetups = """
@@ -139,8 +139,13 @@ drop_table = """DROP TABLE users IF exist"""
 check_if_blacklisted = """
                         SELECT * FROM blacklisted_users WHERE user_id = %s AND question_id = %s
                         """
+alter_table_user = """
+                        ALTER TABLE users ALTER COLUMN isAdmin SET DEFAULT 'f'
+                """
 
-
+created_by_admin = """
+                   SELECT * FROM  meetups where createdby = %s 
+                   """     
 
 
 tables = [table1,table2,table3,table4,table5,table6]
