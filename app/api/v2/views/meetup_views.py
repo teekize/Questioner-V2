@@ -67,5 +67,33 @@ def get_all_upcoming():
     """meetup endpoint for getting all upcoming meetups"""
     response  = meetup.get_upcoming_meetups()
     return jsonify(response),200
+
+@meetup_blueprint.route("/meetups/<int:meetup_id>/rsvp", methods=["POST"])
+@token_required
+def rsvp_meeting(username, meetup_id):
+    response = meetup.check_for_meetup_by_id(meetup_id)
+    if  response["status"] != 200:
+        return jsonify(response),404
+    """check if the request is in json format"""
+    if not request.json:
+        return jsonify({
+                        "message": "request should be in json format", 
+                        "status": 400
+                        }
+                        ),400
+
     
+    data = request.json
+    if data["response"].lower() not in ("yes", "no", "maybe"):
+        return jsonify({"status":400, "message": "response should be only (yes, no, maybe) "}),400
+    
+    new_rsvp = [meetup_id, username[1], data["response"]]
+    response = meetup.rsvp_meetup(new_rsvp)
+    return jsonify(response), response["status"]
+    
+    
+
+
+    
+
     

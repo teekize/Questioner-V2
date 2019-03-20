@@ -1,6 +1,6 @@
 from app.api.v2.database.database import DbModels
 from app.api.v2.database.sql_queries import (create_meetup,check_same_meetup_name,
-                                                get_meetup_by_id,get_upcoming_meetups)
+                                                get_meetup_by_id,get_upcoming_meetups, create_rsvp)
 import datetime
 from psycopg2 import IntegrityError
 from psycopg2.extras import RealDictCursor
@@ -47,9 +47,12 @@ class MeetUpModel(DbModels):
         cur = conn.cursor()
         cur.execute(check_same_meetup_name, (name,))
         result = cur.fetchone()
+        conn.commit()
+        conn.close()
 
         if not result :
             return False
+       
 
     def check_for_meetup_by_id(self, data):
         try:
@@ -80,8 +83,25 @@ class MeetUpModel(DbModels):
         cur.execute(get_upcoming_meetups,(data,))
 
         results = cur.fetchall()
+        conn.commit()
+        conn.close()
     
         return {
                 "status":200,
                  "data" : results
                 }
+
+    def rsvp_meetup(self, data):
+        """creates the rsvp for a meetup"""
+        new_entries = data[0], data[1], data[2]
+        conn =self.db_connection()
+        cur =conn.cursor(cursor_factory= RealDictCursor)
+        cur.execute(create_rsvp, new_entries)
+        results= cur.fetchone()
+        conn.commit()
+        conn.close()
+
+        return{
+            "status":200,
+            "data": results
+        }
