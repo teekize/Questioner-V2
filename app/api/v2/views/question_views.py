@@ -133,7 +133,6 @@ def create_comment(username):
     all_fields = title,body
 
     """we then check if there is a meetup with that id that exists"""
-    # select meetup id if meetup id=given meetup id
     meetup_exist = question.check_meetup_exist(meetup)
     if meetup_exist["status"] == 404:
         return jsonify(meetup_exist),404
@@ -150,8 +149,7 @@ def create_comment(username):
         return jsonify({"status":400, "error": "the fields body, title and meetup should not be empty"}),400
 
     comment_from_user =[ username[1],title,body,meetup,question_id]
-    
-   
+
     response = question.create_comment(comment_from_user)
     if response["status"]==409:
         return jsonify(response),409
