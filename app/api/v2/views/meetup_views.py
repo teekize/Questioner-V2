@@ -2,10 +2,12 @@ from flask import Blueprint, request, jsonify
 from instance.config import Config
 from app.api.v2.utils.validation import Validators,token_required
 from app.api.v2.models.meetup_models import MeetUpModel
+from app.api.v2.models.user_models import UserModel
 from app.api import app_blueprint
 
 validators = Validators()
 meetup =MeetUpModel()
+user = UserModel()
 meetup_blueprint = Blueprint("meetup_blueprint",__name__)
 
 @meetup_blueprint.route("/meetups", methods=["POST"])
@@ -89,6 +91,21 @@ def rsvp_meeting(username, meetup_id):
     
     new_rsvp = [meetup_id, username[1], data["response"]]
     response = meetup.rsvp_meetup(new_rsvp)
+    return jsonify(response), response["status"]
+    
+@meetup_blueprint.route("/meetups/<int:meetup_id>", methods=["DELETE"])
+@token_required
+def delete_meetup(username, meetup_id):
+    """check if the user is admin"""
+    repsonse = user.get_one_user_with_username(username[0])
+    
+    if repsonse["isadmin"] != True:
+        return jsonify({"status": 401, "message" :"you must be admin"})
+    
+    """then if he is an admin then we can check if he is the one who created 
+    the meetup , if not the one we reject if is the one the we agree"""
+
+    response = meetup.get_meetup_by_admin_id(username[1], meetup_id)
     return jsonify(response), response["status"]
     
     
