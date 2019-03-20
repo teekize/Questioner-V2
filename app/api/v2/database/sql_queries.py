@@ -53,10 +53,10 @@ table5= """
         comment_id serial PRIMARY KEY,
         createdon timestamp  NOT NULL,
         createdby INT REFERENCES users(user_id),
-        meetup INT ,
+        meetup INT REFERENCES meetups(meetup_id),
         title varchar(40) UNIQUE NOT NULL,
         body VARCHAR(60) NOT NULL,
-        question INT NOT NULL
+        question INT NOT NULL REFERENCES questions(question_id)
         
         )
         """
@@ -87,8 +87,8 @@ create_meetup = """
                 VALUES(%s,%s,%s,%s,%s,%s,%s,%s) RETURNING meetup_id, name, happeningon
                 """
 create_rsvp = """
-                INSERT INTO rsvp (meetup,user_,response),
-                VALUES(%s,%s,%s) RETURNING meetup_id, response
+                INSERT INTO rsvp (meetup,user_,response)
+                VALUES(%s,%s,%s) RETURNING meetup, response
               """
 check_same_meetup_name = """
                           SELECT name FROM meetups WHERE topic = %s
