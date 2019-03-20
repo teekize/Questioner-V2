@@ -1,7 +1,7 @@
 from app.api.v2.database.database import DbModels
 from app.api.v2.database.sql_queries import (save_question,get_meetup_by_id, 
                                             get_question_by_id, get_all_questions, update_votes, insert_blacklisted,
-                                            check_if_blacklisted)
+                                            check_if_blacklisted, save_comment)
 import datetime
 from psycopg2 import IntegrityError
 from psycopg2.extras import RealDictCursor
@@ -26,16 +26,16 @@ class QuestionModel(DbModels):
 
     def save_question(self, data):
         try:
-            createdon =self.day_created
-            createdby = data["createdby"]
-            meetup = data["meetup"]
-            title = data["title"]
-            body = data["body"]
-
-            data_to_pass = (title,body,meetup, createdon, createdby)
+            # createdon =self.day_created,
+            # createdby = data["createdby"]
+            # meetup = data["meetup"]
+            # title = data["title"]
+            # body = data["body"]
+            # question_from_user =[username[1],title,body,meetup]
+            data_to_pass = data[1],data[2], data[3], self.day_created, data[0]
             conn = self.db_connection()
             cur = conn.cursor(cursor_factory=RealDictCursor)
-            cur.execute(save_question,(data_to_pass))
+            cur.execute(save_question,data_to_pass)
             results = cur.fetchone()
             conn.commit()
             conn.close()
@@ -65,7 +65,7 @@ class QuestionModel(DbModels):
                     "error":"could not find meetup with that id"
                     }
        
-    def check_if_question_exixts(self, data, username):
+    def check_if_question_exists(self, data, username):
         """this function checks if the question exists in the database
         takes in the parameter data which is the qustion id 
         it then returns the false is the results variable is none and 
@@ -96,7 +96,7 @@ class QuestionModel(DbModels):
         user_id = username[1]
         print (user_id)
 
-        question = self.check_if_question_exixts(question_id, username)
+        question = self.check_if_question_exists(question_id, username)
         blacklisted = self.check_if_user_and_question_blacklisted(user_id, question_id)
 
 
@@ -153,3 +153,37 @@ class QuestionModel(DbModels):
         conn.close()
 
         return results
+
+    """this is the method that adds a comment"""
+    def create_comment(self, data):
+        """createdon,createdby,meetup,title,body,question
+        comment_from_user =[
+                "createdby":username[1],
+                "title": title,
+                "body": body,
+                "meetup": meetup,
+                "question_id" : question_id
+    ]
+    
+        """
+
+
+        comment = self.day_created, data[0],data[3], data[1], data[2], data[4]
+        try:
+            
+            conn = self.db_connection()
+            cur = conn.cursor(cursor_factory=RealDictCursor)
+            cur.execute(save_comment, comment)
+            results = cur.fetchone()
+            conn.commit()
+            conn.close()
+
+            return {
+                    "status":201,
+                    "data": results
+                  }
+        except IntegrityError:
+            return {
+                "status":409,
+                "error":"a simillar question has been asked with same title"
+            }
