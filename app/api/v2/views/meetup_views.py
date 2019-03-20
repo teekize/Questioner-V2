@@ -82,7 +82,7 @@ def rsvp_meeting(username, meetup_id):
                         }
                         ),400
 
-    """the required fiedls include, response and then the userid"""
+    
     data = request.json
     if data["response"].lower() not in ("yes", "no", "maybe"):
         return jsonify({"status":400, "message": "response should be only (yes, no, maybe) "}),400
