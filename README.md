@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.com/teekize/Questioner-V2.svg?branch=develop)](https://travis-ci.com/teekize/Questioner-V2)
+<!-- [![Build Status](https://travis-ci.com/teekize/Questioner-V2.svg?branch=develop)](https://travis-ci.com/teekize/Questioner-V2) -->
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/a882fd1c5c0afc243da7/maintainability)](https://codeclimate.com/github/teekize/Questioner-V2/maintainability)
 
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5ecdc75d858e2c260a23)
+[Heroku link](https://questionner-v1-teeka.herokuapp.com/)
+<!-- [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/5ecdc75d858e2c260a23) -->
 
 ## Questionner
 
@@ -51,6 +51,6 @@ This will give you what you need for the aplication to run locally
 |  POST 	| `/api/v1/meetups/<meetup_id>/rsvp` 	      |   this questions create an rsvp response	|
 
 
-[Heroku link](https://questionner-v1-teeka.herokuapp.com/)
+
 ## Author 
 Teeka Elvis
