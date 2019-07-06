@@ -3,7 +3,7 @@ import os
 
 class Config(object):
     DEBUG = True
-    Database = os.getenv('DATABASE_URL')
+    Database = os.environ['DATABASE_URL']
     secret_key = "hhjkshufierfrioenfreh"
 
 class Development(Config):
@@ -14,6 +14,7 @@ class Testing(Config):
 
 
 config = {
+    "DATABASE":os.environ['DATABASE_URL'],
     "testing": Testing,
     "development": Development
 }
