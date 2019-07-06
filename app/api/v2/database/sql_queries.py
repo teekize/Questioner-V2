@@ -20,7 +20,7 @@ table2="""
         images varchar(40) ARRAY ,
         topic varchar(40) UNIQUE  NOT NULL,
         happeningon timestamp  NOT NULL,
-        tags VARCHAR(20) ARRAY,
+        tags VARCHAR(120) ARRAY,
         name varchar(20)  NOT NULL,
         createdby INT NOT NULL
         )
@@ -55,7 +55,7 @@ table5= """
         createdby INT REFERENCES users(user_id),
         meetup INT REFERENCES meetups(meetup_id),
         title varchar(40) UNIQUE NOT NULL,
-        body VARCHAR(60) NOT NULL,
+        body VARCHAR(120) NOT NULL,
         question INT NOT NULL REFERENCES questions(question_id)
         
         )
