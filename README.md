@@ -13,17 +13,16 @@ Crowd-source questions for a meetup. Questioner helps the meetup organizer prior
 This will give you what you need for the aplication to run locally
 
 ## Requirements
-
 1. python 3.7
 2. Postman
 3. Git
 
+
 ## Installing 
- 1.clone this repository
- [repo](https://github.com/teekize/Questionner.git)
- have the python installed in your machine
+ 1. Clone this repository
+ [repo](https://github.com/teekize/Questioner-V2.git)
  
- 3. Install a virtual environment
+ 2. Install a virtual environment
  this command is for windows
  `pip venv venv`
 
@@ -42,15 +41,19 @@ This will give you what you need for the aplication to run locally
 ## Endpoints
  | Method  	|   Endpoint	                            |  Description 	    |
 |---	    |---	                                    |---	            |
-|  POST 	| `/api/v1/meetups`  	                        |   this endpoint adds a new meetup	    |   
-|   GET	    | `/api/v1/meetups/<meetup_id> `          |   this endpoint gets you a specific meetup	|
-|  GET 	    | `/api/v1/meetups/upcoming`	                |   this endpoint gets all upcoming meetups	|
-|  POST	    | `api/v1/questions`	                        |   this endpints creates a new question	|
-|  PATCH 	| `/api/v1/questions/<question_id>/upvote`|   this endpoint upvotes a question	|
-|  PATCH 	| `/api/v1/questions/<question_id>/downvote`|  this endpoint  downvotes a question	|
-|  POST 	| `/api/v1/meetups/<meetup_id>/rsvp` 	      |   this questions create an rsvp response	|
-
+|  POST	    | `/api/v2/auth/signup`	                        |   this endpoints registers a new user |
+|  POST	    | `/api/v2/auth/login`	                        |   this endpoints enables the user to login |
+|  POST 	| `/meetups`  	                        |   this endpoint adds a new meetup	    |   
+|   GET	    | `/meetups/<meetup_id> `          |   this endpoint gets  a specific meetup	|
+|  GET 	    | `/meetups/upcoming/`	                |   this endpoint gets all upcoming meetups	|
+|  POST 	| `/meetups/<meetup_id>/rsvp` 	      |   this questions create an rsvp response	|
+| DELETE 	| `/meetups/<meetup_id>`  	                        |   this endpoint deletes a meetup	    |
+|  POST	    | `/questions`	                        |   this endpoints creates a new question	|
+|    GET    | `/questions`	                        |   this endpoints gets all questions	|
+|  PATCH 	| `/questions/<question_id>/upvote`|   this endpoint upvotes a question	|
+|  PATCH 	| `/questions/<question_id>/downvote`|  this endpoint  downvotes a question	|
+|  POST	    | `/comments/`	                        |   this endpoints creates a new comment	|
 
 
 ## Author 
-Teeka Elvis
+**Teeka Elvis**
