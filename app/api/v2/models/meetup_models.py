@@ -10,6 +10,9 @@ from psycopg2.extras import RealDictCursor
 class MeetUpModel(DbModels):
     """conatins methids for the meetup models"""
 
+    # def __init__():
+    #     self.response ={}
+
     def save_meetup(self, data):
         conn = self.db_connection()
         cur = conn.cursor()
