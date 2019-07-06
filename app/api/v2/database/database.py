@@ -1,5 +1,7 @@
 import psycopg2
 from .sql_queries import tables
+from instance.config import config
+
 
 
 
@@ -8,7 +10,7 @@ class DbModels:
 
     def db_connection(self):
         """this method creates the connection to the database and returns a conn object"""
-        conn = psycopg2.connect("dbname = questioner user = postgres password = 0001")
+        conn = psycopg2.connect(config["DATABASE"])
         return conn
     
 
